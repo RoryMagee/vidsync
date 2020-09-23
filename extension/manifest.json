@@ -12,7 +12,7 @@
                 "https://www.netflix.com/watch/*",
                 "https://sync.r2l.dev/"
             ],
-            "js": ["content.js"]
+            "js": ["content.js", "env.js"]
         }
     ],
     "browser_action": {

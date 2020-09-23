@@ -6,7 +6,7 @@ chrome.runtime.onMessage.addListener((request, sender, response) => {
             break;
         case 'leave':
             // Disconnect from websocket server
-            console.log('leaving session');
+            console.log(test());
             break;
         default:
             console.log('request handler not found');
