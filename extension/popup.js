@@ -1,11 +1,9 @@
-chrome.storage.local.set({websocketConnected: true});
 document.addEventListener('DOMContentLoaded', () => {
-    const button = document.querySelector('.mainButton');
     getConnectionStatus().then(connectionStatus => {
         if (connectionStatus === true) {
-            updateButton(button, "Leave Session", "close");
+            updateButton("Leave Session", "leave");
         } else {
-            updateButton(button, "Join Session", "join");
+            updateButton("Join Session", "join");
         }
     });
 }, false);
@@ -19,7 +17,8 @@ function getConnectionStatus() {
     });
 }
 
-function updateButton(button, htmlValue, messageString) {
+function updateButton(htmlValue, messageString) {
+    const button = document.querySelector('.mainButton');
     button.innerHTML = htmlValue;
     button.addEventListener('click', () => {
         chrome.tabs.query({currentWindow: true, active: true}, (tabs) => {
