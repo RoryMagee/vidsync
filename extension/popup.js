@@ -3,21 +3,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const button = document.querySelector('.mainButton');
     getConnectionStatus().then(connectionStatus => {
         if (connectionStatus === true) {
-            button.innerHTML = "Leave Session";
-            button.addEventListener('click', () => {
-                chrome.tabs.query({currentWindow: true, active: true}, (tabs) => {
-                    chrome.tabs.sendMessage(tabs[0]['id'], 'close');
-                    window.close();
-                });
-            });
+            updateButton(button, "Leave Session", "close");
         } else {
-            button.innerHTML = "Join Session";
-            button.addEventListener('click', () => {
-                chrome.tabs.query({currentWindow: true, active: true}, (tabs) => {
-                    chrome.tabs.sendMessage(tabs[0]['id'], 'join');
-                    window.close();
-                });
-            });
+            updateButton(button, "Join Session", "join");
         }
     });
 }, false);
@@ -29,4 +17,14 @@ function getConnectionStatus() {
             resolve(res['websocketConnected']);
         });
     });
+}
+
+function updateButton(button, htmlValue, messageString) {
+    button.innerHTML = htmlValue;
+    button.addEventListener('click', () => {
+        chrome.tabs.query({currentWindow: true, active: true}, (tabs) => {
+            chrome.tabs.sendMessage(tabs[0]['id'], messageString);
+            window.close();
+        })
+    })
 }
