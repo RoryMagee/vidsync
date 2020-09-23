@@ -9,13 +9,14 @@
         {
             "matches": [
                 "https://www.amazon.co.uk/gp/product/*",
-                "https://www.netflix.com/watch/*"
+                "https://www.netflix.com/watch/*",
+                "https://sync.r2l.dev/"
             ],
             "js": ["content.js"]
         }
     ],
     "browser_action": {
-        "defult_popup": "popup.html",
+        "default_popup": "popup.html",
         "default_title": "VIDSYNC"
     }
 }
