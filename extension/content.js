@@ -31,7 +31,6 @@ function joinSession() {
     if (!isSocketConnected()) {
         // Socket is not connected so we can attempt to connect
         ws = new WebSocket(websocketAddress());
-        setConnectionStatus(true);
         getVideo();
         console.log('Connection successfully established');
     }
@@ -64,20 +63,4 @@ function isSocketConnected() {
     } else {
         return false;
     }
-}
-
-function setConnectionStatus(isConnected) {
-    chrome.storage.local.set({websocketConnected: isConnected});
-}
-
-function getConnectionStatus() {
-    return new Promise((resolve, reject) => {
-        chrome.storage.local.get('websocketConnected', (res) => {
-            if (res.hasOwnProperty('websocketConnected')) {
-                resolve(res['websocketConnected']);
-            } else {
-                reject('value not found');
-            }
-        });
-    });
 }
