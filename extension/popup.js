@@ -9,9 +9,11 @@ document.addEventListener('DOMContentLoaded', () => {
 }, false);
 
 function getConnectionStatus() {
+    console.log('getting connection');
     return new Promise((resolve) => {
         chrome.tabs.query({currentWindow: true, active: true}, (tabs) => {
             chrome.tabs.sendMessage(tabs[0]['id'], 'checkConnection', (response) => {
+                console.log('response received', response);
                 resolve(response);
             });
         });
@@ -25,6 +27,6 @@ function updateButton(htmlValue, messageString) {
         chrome.tabs.query({currentWindow: true, active: true}, (tabs) => {
             chrome.tabs.sendMessage(tabs[0]['id'], messageString);
             window.close();
-        })
-    })
+        });
+    });
 }

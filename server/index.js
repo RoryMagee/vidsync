@@ -7,9 +7,7 @@ const app = express();
 let websockets = {};
 
 app.get('/', (req, res) => {
-    res.json({
-        message: 'yuppppppp'
-    });
+    res.send("<h1>Huh???</h1>");
 });
 
 const httpServer = http.createServer(app);
@@ -23,9 +21,9 @@ const wss = new ws.Server({
 
 wss.on('connection', (conn) => {
     console.log('client connected');
+    console.log(`${wss.clients.length} clients connected`);
     conn.on('message', (message) => {
         if (message !== 'keepalive') {
-            console.log(message);
             wss.clients.forEach(client => {
                 if (client !== conn) {
                     console.log(`sending ${message} to client`);

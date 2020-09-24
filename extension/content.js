@@ -30,8 +30,27 @@ function joinSession() {
     console.log('joining session');
     if (!isSocketConnected()) {
         // Socket is not connected so we can attempt to connect
-        ws = new WebSocket(websocketAddress());
         getVideo();
+        ws = new WebSocket(websocketAddress());
+        ws.onmessage = (message) => {
+            switch (message.data) {
+                case 'play':
+                    console.log('playing video');
+                    video.play();
+                    break;
+                case 'pause':
+                    // Pause the video
+                    console.log('pausing video');
+                    video.pause();
+                    break;
+                default:
+                    console.log('wtfffff');
+                    break;
+            }
+        }
+        ws.onclose = () => {
+            console.log('Websocket disconnected');
+        }
         console.log('Connection successfully established');
     }
 }
@@ -47,9 +66,11 @@ function getVideo() {
     video = document.querySelector('video[src]');
     if (video) {
         video.onplay = () => {
+            console.log('playing the video');
             ws.send('play');
         }
         video.onpause = () => {
+            console.log('pausing the video');
             ws.send('pause');
         }
     } else {
@@ -64,3 +85,9 @@ function isSocketConnected() {
         return false;
     }
 }
+
+window.setInterval(() => {
+    if (isSocketConnected()) {
+        ws.send('keepalive');
+    }
+}, 20000);
