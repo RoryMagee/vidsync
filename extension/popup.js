@@ -8,11 +8,12 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 }, false);
 
-
 function getConnectionStatus() {
     return new Promise((resolve) => {
-        chrome.storage.local.get('websocketConnected', (res) => {
-            resolve(res['websocketConnected']);
+        chrome.tabs.query({currentWindow: true, active: true}, (tabs) => {
+            chrome.tabs.sendMessage(tabs[0]['id'], 'checkConnection', (response) => {
+                resolve(response);
+            });
         });
     });
 }

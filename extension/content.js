@@ -6,11 +6,17 @@ chrome.runtime.onMessage.addListener((request, sender, response) => {
         case 'join':
             // Connect to websocket server
             console.log('joining session');
+            joinSession();
             break;
         case 'leave':
             // Disconnect from websocket server
             leaveSession();
             console.log('leaving session');
+            break;
+        case 'checkConnection':
+            // Check if websocket is connected
+            console.log('checking if websocket is connected');
+            response(isSocketConnected());
             break;
         default:
             // Command not found
@@ -27,8 +33,6 @@ function joinSession() {
         ws = new WebSocket(websocketAddress());
         setConnectionStatus(true);
         getVideo();
-        console.log(video);
-        console.log(ws);
         console.log('Connection successfully established');
     }
 }
