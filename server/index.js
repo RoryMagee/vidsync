@@ -7,7 +7,7 @@ const app = express();
 let websockets = {};
 
 app.get('/', (req, res) => {
-    res.send("<h1>Huh???</h1>");
+    res.send("<h1>👀</h1>");
 });
 
 const httpServer = http.createServer(app);
