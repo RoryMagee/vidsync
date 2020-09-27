@@ -4,7 +4,6 @@ const http = require('http');
 const express = require('express');
 
 const app = express();
-let websockets = {};
 
 app.get('/', (req, res) => {
     res.send("<h1>👀</h1>");
@@ -25,7 +24,7 @@ wss.on('connection', (conn) => {
     conn.on('message', (message) => {
         if (message !== 'keepalive') {
             wss.clients.forEach(client => {
-                if (client !== conn) {
+                if (client !== conn && client.readyState === WebSocket.OPEN) {
                     console.log(`sending ${message} to client`);
                     client.send(message);
                 }
