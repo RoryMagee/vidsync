@@ -21,7 +21,7 @@ const wss = new ws.Server({
 
 wss.on('connection', (conn) => {
     console.log('client connected');
-    console.log(`${wss.clients.length} clients connected`);
+    console.log(`${wss.clients.size} clients connected`);
     conn.on('message', (message) => {
         if (message !== 'keepalive') {
             wss.clients.forEach(client => {
