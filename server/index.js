@@ -38,18 +38,13 @@ wss.on('connection', (conn) => {
                         value: parsed['value']
                     });
                     break;
+                case 'disconnect':
+                    client.disconnect();
+                    break;
                 default:
                     console.log(message);
                     console.log('No handler found');
             }
-        }
-        if (message !== 'keepalive') {
-            wss.clients.forEach(client => {
-                if (client !== conn && client.readyState === WebSocket.OPEN) {
-                    console.log(`sending ${message} to client`);
-                    client.send(message);
-                }
-            });
         }
     });
 });
