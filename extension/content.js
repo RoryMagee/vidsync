@@ -35,7 +35,6 @@ function joinSession() {
             let parsed = JSON.parse(message.data);
             switch (parsed['operation']) {
                 case 'playpause':
-                    console.log('playing video');
                     if (parsed['value'] === 'play') {
                         video.play();
                     } else {
@@ -43,10 +42,9 @@ function joinSession() {
                     }
                     break;
                 case 'seek':
-                    console.log('seeking');
                     video.currentTime = parseInt(parsed['value']);
                 default:
-                    console.log('wtfffff');
+                    console.log('wtfffff\n', parsed['operation']);
                     break;
             }
         }
