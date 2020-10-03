@@ -25,7 +25,6 @@ chrome.runtime.onMessage.addListener((request, sender, response) => {
     }
 });
 
-//TODO: Add onmessage handler for websocket
 function joinSession() {
     console.log('joining session');
     if (!isSocketConnected()) {
@@ -33,16 +32,19 @@ function joinSession() {
         getVideo();
         ws = new WebSocket(websocketAddress());
         ws.onmessage = (message) => {
-            switch (message.data) {
-                case 'play':
+            let parsed = JSON.parse(message.data);
+            switch (parsed['operation']) {
+                case 'playpause':
                     console.log('playing video');
-                    video.play();
+                    if (parsed['value'] === 'play') {
+                        video.play();
+                    } else {
+                        video.pause();
+                    }
                     break;
-                case 'pause':
-                    // Pause the video
-                    console.log('pausing video');
-                    video.pause();
-                    break;
+                case 'seek':
+                    console.log('seeking');
+                    video.currentTime = parsed['value'];
                 default:
                     console.log('wtfffff');
                     break;
@@ -78,7 +80,7 @@ function getVideo() {
             console.log('seeking');
             ws.send(JSON.stringify({
                 operation: 'seek',
-                value: event['timestamp']
+                value: event['target']['currentTime']
             }));
         }
     } else {

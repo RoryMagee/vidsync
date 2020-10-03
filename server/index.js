@@ -27,16 +27,16 @@ wss.on('connection', (conn) => {
             let parsed = JSON.parse(message);
             switch(parsed['operation']) {
                 case 'playpause':
-                    client.send({
+                    client.send(JSON.stringify({
                         operation: 'playpause',
                         value: parsed['value']
-                    });
+                    }));
                     break;
                 case 'seek':
-                    client.send({
+                    client.send(JSON.stringify({
                         operation: 'seek',
                         value: parsed['value']
-                    });
+                    }));
                     break;
                 case 'disconnect':
                     client.disconnect();
