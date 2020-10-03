@@ -44,7 +44,7 @@ function joinSession() {
                     break;
                 case 'seek':
                     console.log('seeking');
-                    video.currentTime = parsed['value'];
+                    video.currentTime = parseInt(parsed['value']);
                 default:
                     console.log('wtfffff');
                     break;
@@ -70,11 +70,17 @@ function getVideo() {
     if (video) {
         video.onplay = () => {
             console.log('playing the video');
-            ws.send('play');
+            ws.send(JSON.stringify({
+                operation: 'playpause',
+                value: 'play'
+            }));
         }
         video.onpause = () => {
             console.log('pausing the video');
-            ws.send('pause');
+            ws.send(JSON.stringify({
+                operation: 'playpause',
+                value: 'pause'
+            }));
         }
         video.onseeked = (event) => {
             console.log('seeking');
