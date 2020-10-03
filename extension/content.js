@@ -74,6 +74,13 @@ function getVideo() {
             console.log('pausing the video');
             ws.send('pause');
         }
+        video.onseeked = (event) => {
+            console.log('seeking');
+            ws.send(JSON.stringify({
+                operation: 'seek',
+                value: event['timestamp']
+            }));
+        }
     } else {
         console.error('Video not found in website');
     }
