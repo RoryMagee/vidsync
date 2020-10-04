@@ -57,7 +57,6 @@ function joinSession() {
 
 function leaveSession() {
     if (isSocketConnected()) {
-        // Socket is connected
         ws.close();
         ws = undefined;
     }
