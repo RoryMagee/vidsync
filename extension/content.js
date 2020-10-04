@@ -99,10 +99,6 @@ function getVideo() {
     }
 }
 
-function seekingHandler() {
-    
-}
-
 function isSocketConnected() {
     if (ws?.readyState === 1) {
         return true;
