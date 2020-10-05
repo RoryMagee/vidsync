@@ -79,6 +79,11 @@ function getVideo() {
                 value: 'pause'
             }));
         }
+        /*
+         * When seek message is received - we remove the event listener from
+         * the video then update the video time and then we add the event 
+         * listner back
+         */
         video.addEventListener('seeked', (event) => {
             event.preventDefault();
             event.stopImmediatePropagation();
