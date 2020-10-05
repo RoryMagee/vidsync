@@ -20,7 +20,9 @@ const wss = new ws.Server({
     server: httpServer
 });
 
-// Create handling for receiving websocket message
+/*
+ * Handle websocket connection
+ */
 wss.on('connection', (conn) => {
     console.log('client connected');
     console.log(`${wss.clients.size} clients connected`);
@@ -38,6 +40,9 @@ wss.on('connection', (conn) => {
     });
 });
 
+/*
+ * Send correct values back to websocket client
+ */
 function websocketHandler(message, client) {
     let parsed = JSON.parse(message);
     switch(parsed['operation']) {
@@ -55,6 +60,9 @@ function websocketHandler(message, client) {
     }
 }
 
+/*
+ * Helper function for emitting values to client
+ */
 function emitValue(operation, value, client) {
     client.send(JSON.stringify({
         operation: operation,
