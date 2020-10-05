@@ -5,17 +5,14 @@ chrome.runtime.onMessage.addListener((request, sender, response) => {
     switch(request) {
         case 'join':
             // Connect to websocket server
-            console.log('joining session');
             joinSession();
             break;
         case 'leave':
             // Disconnect from websocket server
             leaveSession();
-            console.log('leaving session');
             break;
         case 'checkConnection':
             // Check if websocket is connected
-            console.log('checking if websocket is connected');
             response(isSocketConnected());
             break;
         default:
@@ -26,7 +23,6 @@ chrome.runtime.onMessage.addListener((request, sender, response) => {
 });
 
 function joinSession() {
-    console.log('joining session');
     if (!isSocketConnected()) {
         // Socket is not connected so we can attempt to connect
         getVideo();
@@ -52,7 +48,6 @@ function joinSession() {
         ws.onclose = () => {
             console.log('Websocket disconnected');
         }
-        console.log('Connection successfully established');
     }
 }
 
@@ -67,14 +62,12 @@ function getVideo() {
     video = document.querySelector('video[src]');
     if (video) {
         video.onplay = () => {
-            console.log('playing the video');
             ws.send(JSON.stringify({
                 operation: 'playpause',
                 value: 'play'
             }));
         }
         video.onpause = () => {
-            console.log('pausing the video');
             ws.send(JSON.stringify({
                 operation: 'playpause',
                 value: 'pause'
@@ -86,9 +79,7 @@ function getVideo() {
          * listner back
          */
         video.oncanplay = (event) => {
-            console.log('CANPLAY');
             video.onseeked = (event) => {
-                console.log('ONSEEKED');
                 event.stopPropagation();
                 event.preventDefault();
                 ws.send(JSON.stringify({
