@@ -79,7 +79,7 @@ function getVideo() {
                 value: 'pause'
             }));
         }
-        vide.addEventListener('seeked', (event) => {
+        video.addEventListener('seeked', (event) => {
             event.preventDefault();
             event.stopImmediatePropagation();
             ws.send(JSON.stringify({
