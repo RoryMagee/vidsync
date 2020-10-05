@@ -1,6 +1,9 @@
 let ws;
 let video;
 
+/*
+ * Handle messages being send to content script from the script in the popup
+ */
 chrome.runtime.onMessage.addListener((request, sender, response) => {
     switch(request) {
         case 'join':
@@ -22,9 +25,12 @@ chrome.runtime.onMessage.addListener((request, sender, response) => {
     }
 });
 
+/*
+ * Initialise the websocket connection and set up the handling for what the
+ * extension should do when certain messages are received.
+ */
 function joinSession() {
     if (!isSocketConnected()) {
-        // Socket is not connected so we can attempt to connect
         getVideo();
         ws = new WebSocket(websocketAddress());
         ws.onmessage = (message) => {
@@ -51,6 +57,9 @@ function joinSession() {
     }
 }
 
+/*
+ * Close websocket connection
+ */
 function leaveSession() {
     if (isSocketConnected()) {
         ws.close();
@@ -58,6 +67,13 @@ function leaveSession() {
     }
 }
 
+/*
+ * Retrieves the video element from the page and updates the event handlers
+ * to send websocket requests when given actions happen
+ * play -> send play message over socket
+ * pause -> send pause message over socket
+ * seek -> send new timetamp over socket
+ */
 function getVideo() {
     video = document.querySelector('video[src]');
     if (video) {
@@ -93,6 +109,10 @@ function getVideo() {
     }
 }
 
+/*
+ * Check if socket connection exists. If it does - return true, otherwise,
+ * return false
+ */
 function isSocketConnected() {
     if (ws?.readyState === 1) {
         return true;
@@ -101,6 +121,11 @@ function isSocketConnected() {
     }
 }
 
+/*
+ * Establish an interval function to send keepalive messages over the 
+ * websocket connection - otherwise the connection will be closed by the 
+ * server
+ */
 window.setInterval(() => {
     if (isSocketConnected()) {
         ws.send('keepalive');
