@@ -42,6 +42,7 @@ function joinSession() {
                     }
                     break;
                 case 'seek':
+                    video.onseeked = null;
                     video.currentTime = parseInt(parsed['value']);
                 default:
                     console.log('wtfffff\n', parsed['operation']);
@@ -84,14 +85,16 @@ function getVideo() {
          * the video then update the video time and then we add the event 
          * listner back
          */
-        video.addEventListener('seeked', (event) => {
-            event.preventDefault();
-            event.stopImmediatePropagation();
-            ws.send(JSON.stringify({
-                operation: 'seek',
-                value: event['target']['currentTime']
-            }));
-        });
+        video.oncanplay = (event) => {
+            vid.onseeked = (event) => {
+                event.stopPropagation();
+                event.preventDefault();
+                ws.send(JSON.stringify({
+                    operation: 'seek',
+                    value: event['target']['currentTime']
+                }));
+            }
+        }
     } else {
         console.error('Video not found in website');
     }
