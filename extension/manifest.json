@@ -8,7 +8,7 @@
     "content_scripts": [
         {
             "matches": [
-                "https://www.amazon.co.uk/gp/video/*",
+                "https://www.amazon.co.uk/gp/*",
                 "https://www.netflix.com/watch/*",
                 "https://sync.r2l.dev/"
             ],

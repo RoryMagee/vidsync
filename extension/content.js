@@ -86,7 +86,9 @@ function getVideo() {
          * listner back
          */
         video.oncanplay = (event) => {
-            vid.onseeked = (event) => {
+            console.log('CANPLAY');
+            video.onseeked = (event) => {
+                console.log('ONSEEKED');
                 event.stopPropagation();
                 event.preventDefault();
                 ws.send(JSON.stringify({
