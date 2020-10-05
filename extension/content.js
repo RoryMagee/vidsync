@@ -79,21 +79,14 @@ function getVideo() {
                 value: 'pause'
             }));
         }
-        /*
-         * We want it so that if we seek from the video player we emit the 
-         * timstamp to the server. If the event comes from a command in the 
-         * script then we don't want to emit anything. 
-         * 
-         * When we seek we want to remove the event listener and then add it 
-         * back after we are done seeking
-         */
-        video.onseeked = (event) => {
-            console.log('seeking');
+        vide.addEventListener('seeked', (event) => {
+            event.preventDefault();
+            event.stopImmediatePropagation();
             ws.send(JSON.stringify({
                 operation: 'seek',
                 value: event['target']['currentTime']
             }));
-        }
+        });
     } else {
         console.error('Video not found in website');
     }
