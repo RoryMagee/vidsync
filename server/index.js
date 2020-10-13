@@ -32,8 +32,6 @@ wss.on('connection', (conn) => {
             wss.clients.forEach(client => {
                 if (client !== conn && client.readyState === ws.OPEN) {
                     websocketHandler(message, client);
-                } else {
-                    console.log('not sending message to client\n', message);
                 }
             });
         }
